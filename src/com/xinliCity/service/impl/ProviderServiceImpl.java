@@ -27,13 +27,13 @@ public class ProviderServiceImpl implements ProviderService {
 		int totalCount = providerMapper.totalCount(paramValues);
 		page.setTotalCount(totalCount);
 		paramValues.put("start", (page.getPageIndex()-1)*page.getPageSize());//���ô���һ����ݿ�ʼ��ѯ
-		paramValues.put("end", page.getPageSize());//���ò�ѯ���������
+		paramValues.put("end", page.getPageSize());//获取页面数值
 		List<Provider> proList = providerMapper.findByCondition(paramValues);
 		page.setList(proList);
 		return page;
 	}
 	public Provider findProviderById(Integer id) {
-		if(id==0){//��������userIdΪ��
+		if(id==0){//判断用户id与userIdΪ是否相同
 			return null;
 		}
 		Map<String,Object> paramValues = new HashMap<String,Object>();
@@ -45,10 +45,10 @@ public class ProviderServiceImpl implements ProviderService {
 		return null;
 	}
 	public boolean insert(Provider pro, HttpSession session) {
-		//λ��ӵ��û����ô�����
+		//获取用户名并赋值给User
 		User loginUser = (User) session.getAttribute(SysContent.LOGINSESSION);
 		//pro.setCreatedBy(loginUser.getId());
-		//λ��ӵ��û����ô���ʱ��
+		//判断数据是否添加成功，并赋值
 		pro.setCreateDate(new Date());
 		int num = providerMapper.insert(pro);
 		if(num>0){
@@ -57,10 +57,10 @@ public class ProviderServiceImpl implements ProviderService {
 		return false;
 	}
 	public boolean update(Provider pro, HttpSession session) {
-		//λ��ӵ��û����ô�����
+		//赋值并更新
 		User loginUser = (User) session.getAttribute(SysContent.LOGINSESSION);
 		//pro.setCreatedBy(loginUser.getId());
-		//λ��ӵ��û����ô���ʱ��
+		//判断是否修改成功，并赋值
 		pro.setCreateDate(new Date());
 		int num = providerMapper.update(pro);
 		if(num>0){
